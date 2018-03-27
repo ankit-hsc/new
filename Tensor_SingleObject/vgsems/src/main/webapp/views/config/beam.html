@@ -1,0 +1,99 @@
+<!-- 
+ ***************************************************************************************************
+ -- FILENAME      : beam.html
+ --	DESCRIPTION   : file to update the configuration of Beam(s)
+ --
+ --  Copyright	  : Copyright  (c) 2017.
+ --  Company      : ISRO.
+ --
+ --  Revision History
+ -- ------------------------------------------------------------------------------------------------
+ -- |VERSION|	Date				|	Author    					|	Reason for Changes				|
+ -- ------------------------------------------------------------------------------------------------
+ -- |	0.1 | 4th December, 2017 	|	Suresh Ungarala 			|	initial draft  					|
+ --	------------------------------------------------------------------------------------------------
+ --
+ ****************************************************************************************************
+-->
+
+
+<div layout="column" flex align="center" style="font-size:13px">
+	<page-header header="Beam" success="successMessage"
+		error="errorMessage"></page-header>
+
+	<div class="singleLineSpace"></div>
+	
+	<div class="singleLineSpace"></div>
+	<div>
+		<div flex ng-controller="paginationCtrl" style="width: 100%;">
+			<datatable-header title=""
+				search="datatableObj.searchText"></datatable-header>
+
+			<md-table-container>
+			<table md-table md-row-select multiple ng-model="selected">
+				<thead md-head class="tableHeaderBg"
+					md-order="datatableObj.sortField" md-on-reorder="updateSorting">
+					<tr md-row>
+						<th md-column md-order-by="beamId" align="center" rowspan="2">Beam ID</th>
+						<th md-column md-order-by="beamName" align="center" rowspan="2">Beam Name</th>
+						<th md-column align="center" colspan="7" style="text-align: center;" class="applyBorderColor">Signaling Channel</th>
+						<th md-column md-order-by="numberOfCall" align="center" rowspan="2" style="text-align: center;">No. Of Active Calls</th>
+						<th md-column md-order-by="noOfCommChannel" align="center" rowspan="2">No. Of  Communication Channels</th>
+						<th md-column md-order-by="lastUpdateTimeStr" align="center" rowspan="2">Time Of Last Status Change</th>
+					</tr>
+					<tr md-row>
+						<th md-column md-order-by="listSigChannel[0].txFreq" align="center" >Tx Freq (GHz)</th>
+						<th md-column md-order-by="listSigChannel[0].rxFreq" align="center" >Rx Freq (GHz)</th>
+						<th md-column md-order-by="listSigChannel[0].freqPairId" align="center">Freq Pair ID</th>
+						<th md-column md-order-by="listSigChannel[0].modId" align="center">Modem (Mod) ID *</th>
+						<th md-column md-order-by="listSigChannel[0].demodId" align="center">Modem (Demod) ID *</th>
+						<th md-column md-order-by="serverIp" align="center">Server IP Address</th>
+						<th md-column md-order-by="statusSelected" align="center">Status *</th>
+						</tr>
+				</thead>
+				<tbody md-body>
+					<tr md-row
+						ng-repeat="component in beamData | orderBy:datatableObj.sortField | filter: datatableObj.searchText | limitTo : datatableObj.limit : (datatableObj.defaultPage-1)*datatableObj.limit"
+						md-select="component" ng-class-odd="'odd'" ng-class-even="'even'" ng-disabled="disableUnAuthEditGlobal" md-on-select="selectRow" md-on-deselect="deselectRow">
+						<td md-cell align="center">{{component.beamId}}</td>
+						<td md-cell align="center">{{component.beamName}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.listSigChannel[0].txFreq || ''}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.listSigChannel[0].rxFreq || ''}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.listSigChannel[0].freqPairId || ''}}</td>
+						<td md-cell align="center" style="text-align: center;"><md-input-container> <input name="modId" ng-disabled="!component.rowSelected"
+													class="boldtext" ng-model="component.listSigChannel[0].modId" aria-label="modId" style="width:50%"> </md-input-container></td>
+						<td md-cell align="center" style="text-align: center;"><md-input-container> <input name="demodId" ng-disabled="!component.rowSelected"
+													class="boldtext" ng-model="component.listSigChannel[0].demodId" aria-label="demodId" style="width:50%"> </md-input-container></td>
+						<td md-cell align="center" style="text-align: center;">{{component.serverIp}}</td>
+						<td md-cell align="center"><md-input-container>
+							<md-select aria-label="statusSelected" ng-model="component.statusSelected" placeholder={{component.status}} ng-init="component.statusSelected=component.status" ng-disabled="!component.rowSelected"><md-option
+								ng-value="status.name" ng-repeat="status in statusMap">{{status.name}}</md-option>
+							</md-select> </md-input-container></td>
+						<td md-cell align="center" style="text-align: center;">{{component.numberOfCall}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.noOfCommChannel}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.lastUpdateTimeStr}}</td>
+					</tr>
+					<tr md-row ng-show="beamData.length==0">
+						<td colspan="12" align="center" class="noDataText">No data available</td>
+					</tr>
+				</tbody>
+			</table>
+			</md-table-container>
+			<md-table-pagination md-limit="datatableObj.limit"
+				md-limit-options="datatableObj.records"
+				md-page="datatableObj.defaultPage"
+				md-on-paginate="onPaginate"
+				md-total="{{beamData?(beamData|filter:datatableObj.searchText).length:0}}"
+				md-page-select></md-table-pagination>
+			<br>
+		</div>
+	</div>
+	<form name="beamForm">
+		<div>
+			<md-button
+				ng-disabled="disableUnAuthEditGlobal || selected.length==0"
+				ng-click="showConfirm()" class="md-raised md-primary">Update</md-button>
+		</div>
+	</form>
+</div>
+

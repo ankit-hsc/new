@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>ISRO</title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width">
+<meta http-equiv="Cache-Control" content="no-cache" />
+
+<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+
+<!-- build:css(.) styles/vendor.css -->
+<!-- bower:css -->
+<link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css" />
+<link rel="stylesheet" href="bower_components/angular-material-data-table/dist/md-data-table.min.css" />
+<link rel="stylesheet" href="bower_components/angularjs-datetime-picker/angularjs-datetime-picker.css" />
+<link rel="stylesheet" href="bower_components/angular-material-datetimepicker-master/material-datetimepicker.css" />
+<link rel="stylesheet" href="bower_components/font/font.css">
+<link rel="stylesheet" href="bower_components/font/icon.css">
+<link rel="stylesheet" href="bower_components/ammap/ammap.css" type="text/css" media="all">
+<!-- endbower -->
+<!-- endbuild -->
+
+<link rel="stylesheet" href="styles/isro.css">
+<link rel="stylesheet" href="styles/isro_bower.css">
+<!-- endbuild -->
+
+
+
+</head>
+
+<body ng-app="vgsems">
+
+	<div layout="row" flex layout-fill>
+		<div layout="column" flex ng-include="src='main.html'"></div>
+	</div>
+
+	<!-- build:js(.) scripts/vendor.js -->
+	<!-- bower:js -->
+	<script src="bower_components/angular/angular.min.js" defer ></script>
+	<script src="bower_components/angular-animate/angular-animate.min.js" defer ></script>
+	<script src="bower_components/angular-cookies/angular-cookies.min.js" defer ></script>
+	<script src="bower_components/angular-resource/angular-resource.min.js" defer ></script>
+	<script src="bower_components/angular-route/angular-route.min.js" defer ></script>
+	<script src="bower_components/angular-sanitize/angular-sanitize.min.js" defer ></script>
+	<script src="bower_components/angular-aria/angular-aria.min.js" defer ></script>
+	<script src="bower_components/angular-messages/angular-messages.min.js" defer ></script>
+	<script src="bower_components/angular-material/angular-material.min.js" defer ></script>
+	<script src="bower_components/ngstorage/ngStorage.min.js" defer ></script>
+	<script src="bower_components/amcharts/dist/amcharts/amcharts.js" defer ></script>
+	<script src="bower_components/amcharts/dist/amcharts/serial.js" defer ></script>
+	<script src="bower_components/amcharts/dist/amcharts/gantt.js" defer ></script>
+	<script src="bower_components/amcharts/dist/amcharts/pie.js" defer ></script>
+	<script src="bower_components/amcharts/dist/amcharts/themes/light.js" defer ></script>
+	<script src="bower_components/ammap/ammap.js" defer ></script>
+	<script src="bower_components/ammap/maps/js/indiaLow.js" defer ></script>
+	<script src="bower_components/angular-material-data-table/dist/md-data-table.min.js" defer ></script>
+	<script src="bower_components/angularjs-datetime-picker/angularjs-datetime-picker.min.js" defer ></script>
+	<script src="bower_components/moment/min/moment.min.js" defer ></script>
+	<script src="bower_components/jquery/dist/jquery.min.js" defer ></script>
+	<script src="bower_components/angular-material-datetimepicker-master/angular-material-datetimepicker.js" defer ></script>
+	<script src="bower_components/angular-ui-mask/dist/mask.min.js" defer ></script>
+	<!-- endbower -->
+
+	<script src="scripts/app.js" defer ></script>
+	
+	<!-- Place all the Services below -->
+	<script src="scripts/services/authenticate/loginService.js" defer ></script>
+	<script src="scripts/services/dashboard/homeService.js" defer ></script>
+	<script src="scripts/services/app/httpService.js" defer ></script>
+	<script src="scripts/services/app/utilityService.js" defer ></script>
+	<script src="scripts/services/alarm/alarmService.js" defer ></script>
+	<script src="scripts/services/inventory/InventoryService.js" defer ></script>
+	<script src="scripts/services/status/CallAndSmsStatusService.js" defer ></script>
+	<script src="scripts/services/config/configService.js" defer ></script>
+	<script src="scripts/services/inventory/smsGatewayService.js" defer ></script>
+	<script src="scripts/services/statistics/statisticsService.js" defer ></script>
+	<script src="scripts/services/auditLog/auditLogService.js" defer ></script>
+	
+	<!-- Place all the controllers below -->
+	<script src="scripts/controllers/authenticate/loginCtrl.js" defer ></script>
+	<script src="scripts/controllers/dashboard/dashboardCtrl.js" defer ></script>
+	<script src="scripts/controllers/app/popupCtrl.js" defer ></script>
+	<script src="scripts/controllers/app/confirmPromptCtrl.js" defer ></script>
+	<script src="scripts/controllers/app/paginationCtrl.js" defer ></script>
+	<script src="scripts/controllers/alarm/alarmHistoryCtrl.js" defer ></script>
+	<script src="scripts/controllers/alarm/currentAlarmCtrl.js" defer ></script>
+	<script src="scripts/controllers/inventory/SigModem.js" defer ></script>
+	<script src="scripts/controllers/inventory/CommModem.js" defer ></script>
+	<script src="scripts/controllers/inventory/pstn.js" defer ></script>
+	<script src="scripts/controllers/status/activeCallsStatus.js" defer ></script>
+	<script src="scripts/controllers/status/recentCallsStatus.js" defer ></script>
+	<script src="scripts/controllers/status/smsStatus.js" defer ></script>
+	<script src="scripts/controllers/config/beam.js" defer ></script>
+	<script src="scripts/controllers/config/commChannel.js" defer ></script>
+	<script src="scripts/controllers/config/terminalDetailPopUpCtrl.js" defer ></script>
+	<script src="scripts/controllers/config/terminal.js" defer ></script>
+	<script src="scripts/controllers/inventory/smsGateway.js" defer ></script>
+	<script src="scripts/controllers/inventory/provisionUpload.js" defer ></script>
+	<script src="scripts/controllers/statistics/statistics.js" defer ></script>
+	<script src="scripts/controllers/app/callDetailDialogCtrl.js" defer ></script>
+	<script src="scripts/controllers/auditLog/auditLogCtrl.js" defer ></script>
+	
+	<!-- Place all the directories below -->
+	<script src="scripts/directives/datatableHeaderDirective.js" defer ></script>
+	<script src="scripts/directives/pageHeaderDirective.js" defer ></script>
+	<script src="scripts/directives/multipleSelectDirective.js" defer ></script>
+	<script src="scripts/directives/provisionUploadDirective.js" defer ></script>
+	<script src="scripts/constants/appConstants.js" defer ></script>
+	<!-- endbuild -->
+
+</body>
+</html>
+

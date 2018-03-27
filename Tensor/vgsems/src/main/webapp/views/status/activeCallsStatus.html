@@ -1,0 +1,101 @@
+<!-- 
+ ***************************************************************************************************
+ -- FILENAME      : activeCallsStatus.html
+ --	DESCRIPTION   : file to monitor the active calls
+ --
+ --  Copyright	  : Copyright  (c) 2017.
+ --  Company      : ISRO.
+ --
+ --  Revision History
+ -- ------------------------------------------------------------------------------------------------
+ -- |VERSION|	Date				|	Author    					|	Reason for Changes				|
+ -- ------------------------------------------------------------------------------------------------
+ -- |	0.1 | 28th November, 2017 	|	Suresh Ungarala 			|	initial draft  					|
+ --	------------------------------------------------------------------------------------------------
+ --
+ ****************************************************************************************************
+-->
+
+
+<div layout="column" flex align="center" style="font-size:13px">
+	<page-header header="Active Calls" success="successMessage"
+		error="errorMessage"></page-header>
+
+	<div class="singleLineSpace"></div>
+	
+	<div class="singleLineSpace"></div>
+	<div>
+		<div flex ng-controller="paginationCtrl" style="width: 100%;">
+			<datatable-header title=""
+				search="datatableObj.searchText"></datatable-header>
+
+			<md-table-container id="activeCallsViewId">
+			<table md-table>
+				<thead md-head class="tableHeaderBg"
+					md-order="datatableObj.sortField" md-on-reorder="updateSorting">
+					<tr md-row>
+						<th md-column align="center" rowspan="2">Action</th>
+						<th md-column md-order-by="callId" align="center" rowspan="2">Call ID</th>
+						<th md-column md-order-by="dateTime" align="center" rowspan="2">Call Start Time</th>
+						<th md-column align="center" colspan="3" style="text-align: center;" class="applyBorderColor">Calling User</th>
+						<th md-column align="center" colspan="3" style="text-align: center;" class="applyBorderColor">Called User</th>
+					</tr>
+					<tr md-row>
+						<th md-column md-order-by="calleeNumber" align="center">Number</th>
+						<th md-column md-order-by="calleeBeamId" align="center" >Beam</th>
+						<th md-column md-order-by="calleeFreqPairId" align="center" class="hidecolumndata" >Signal Channel Freq<br> Pair ID</th>
+						<th md-column md-order-by="calleeCommChId" align="center" class="hidecolumndata">Communication<br> Channel ID</th>
+						<th md-column md-order-by="calleeModemId" align="center" class="hidecolumndata">Communication<br> Modem ID</th>
+						<th md-column md-order-by="calleePstnPortId" align="center" class="hidecolumndata">PSTN Port ID</th>
+						<th md-column md-order-by="calleeServerIp" align="center" class="hidecolumndata">Server IP Address</th>
+						<th md-column md-order-by="calleeSignalLength" align="center" >Initial Signal<br> Strength</th>
+						<th md-column md-order-by="callerNumber" align="center"  style="text-align: center;">Number</th>
+						<th md-column md-order-by="callerBeamId" align="center">Beam</th>
+						<th md-column md-order-by="callerFreqPairId" align="center" class="hidecolumndata">Signal Channel Freq<br> Pair ID</th>
+						<th md-column md-order-by="callerCommChId" align="center" class="hidecolumndata">Communication<br> Channel ID</th>
+						<th md-column md-order-by="callerModemId" align="center" class="hidecolumndata">Communication<br> Modem id</th>
+						<th md-column md-order-by="callerPstnPortId" align="center" class="hidecolumndata">PSTN Port ID</th>
+						<th md-column md-order-by="callerServerIp" align="center" class="hidecolumndata">Server IP Address</th>
+						<th md-column md-order-by="callerSignalLength" align="center">Initial Signal<br> Strength</th>
+						</tr>
+				</thead>
+				<tbody md-body>
+					<tr md-row ng-repeat="component in activeCalls | orderBy:datatableObj.sortField | filter: datatableObj.searchText | limitTo : datatableObj.limit : (datatableObj.defaultPage-1)*datatableObj.limit"
+						ng-class-odd="'odd'" ng-class-even="'even'" md-on-select="component.rowSelected=true" md-on-deselect="component.rowSelected=false">
+						<td md-cell align="center" ><md-button ng-click="showConfirm(component.callId)" class="md-raised md-primary buttnCls" ng-disabled="disableUnAuthEditGlobal">End Call</md-button></td>
+						<td md-cell align="center"><a href="" ng-click="showCallDetails(component.callId)" style="text-decoration:none;">{{component.callId || ''}}</a></td>
+						<td md-cell align="center">{{null==component.dateTime?'-':formatDate(component.dateTime)}}</td>
+						<td md-cell align="center" style="text-align: center;"><img ng-src="{{component.calleeNumberType==='S'?'images/satellite.png':'images/pstn.png'}}" style="height: 50%;"> {{component.calleeNumber || ''}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.calleeBeamName || ''}}</td>
+						<td md-cell align="center" style="text-align: center;" class="hidecolumndata">{{component.calleeFreqPairId || ''}}</td>
+						<td md-cell align="center" style="text-align: center;" class="hidecolumndata">{{component.calleeCommChId || ''}}</td>
+						<td md-cell align="center" style="text-align: center;" class="hidecolumndata">{{component.calleeModemId || ''}}</td>
+						<td md-cell align="center" style="text-align: center;" class="hidecolumndata">{{component.calleePstnPortId || ''}}</td>
+						<td md-cell align="center" style="text-align: center;" class="hidecolumndata">{{component.calleeServerIp}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.calleeSignalLength || ''}}</td>
+						<td md-cell align="center" style="text-align: center;"><img ng-src="{{component.callerNumberType==='S'?'images/satellite.png':'images/pstn.png'}}" style="height: 50%;"> {{component.callerNumber || ''}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.callerBeamName || ''}}</td>
+						<td md-cell align="center" style="text-align: center;" class="hidecolumndata">{{component.callerFreqPairId || ''}}</td>
+						<td md-cell align="center" style="text-align: center;" class="hidecolumndata">{{component.callerCommChId || ''}}</td>
+						<td md-cell align="center" style="text-align: center;" class="hidecolumndata">{{component.callerModemId || ''}}</td>
+						<td md-cell align="center" style="text-align: center;" class="hidecolumndata">{{component.callerPstnPortId || ''}}</td>
+						<td md-cell align="center" style="text-align: center;" class="hidecolumndata">{{component.callerServerIp}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.callerSignalLength || ''}}</td>
+					</tr>
+					<tr md-row ng-show="activeCalls.length==0">
+						<td colspan="19" align="center" class="noDataText">No Active Calls</td>
+					</tr>
+				</tbody>
+			</table>
+			</md-table-container>
+			<md-table-pagination md-limit="datatableObj.limit"
+				md-limit-options="datatableObj.records"
+				md-page="datatableObj.defaultPage"
+				md-total="{{activeCalls?(activeCalls|filter:datatableObj.searchText).length:0}}"
+				md-page-select></md-table-pagination>
+			<br>
+		</div>
+	</div>
+	
+</div>
+

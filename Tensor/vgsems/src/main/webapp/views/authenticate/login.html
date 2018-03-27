@@ -1,0 +1,80 @@
+<!-- 
+ ***********************************************************************************
+ -- FILENAME      : login.html
+ --	DESCRIPTION   : file to generate layout of login page
+ --
+ --  Copyright	  : Copyright  (c) 2017.
+ --  Company      : ISRO.
+ --
+ --  Revision History
+ -- -----------------------------------------------------------------------------------
+ -- |VERSION|	Date				|	Author    				|	Reason for Changes		|
+ -- ------------------------------------------------------------------------------------
+ -- |	0.1 | 28th November, 2017	|	Suresh Ungarala   		|	ISRO-removed DB filter	|
+ --	------------------------------------------------------------------------------------
+ --
+ ****************************************************************************************
+-->
+
+
+<div flex="100" class="loginbgdiv" align="center" >
+<div layout="column" style="overflow:hidden">
+<div id="loginFormDivId">
+<div layout="row">
+<div flex="35" align="left" class="loginlogo"><img ng-src="images/loginlogo.svg" style="width: 20%;height:100%" /></div>
+<div flex="25"></div>
+<div  flex="40">
+<form name="loginForm" ng-submit="ctrl.validateUser()">
+		<div layout="row" style="padding-top: 20px;" align="center">
+
+
+				<div flex='40' style="padding-top: 3%;">
+					<md-input-container> <label
+						style="font-size: 14px;">User Name</label> <md-icon style="font-size:35px !important;"
+						class="person material-icons" > account_box </md-icon> <input name="username" style="margin-top:5px;"
+						ng-model="ctrl.user.username" required autofocus> </md-input-container>
+
+				</div>
+				<div flex='40' style="padding-top: 3%;">
+					<md-input-container> <label
+						style="font-size: 14px;">Password</label>
+						 <md-icon class="lock material-icons" style="font-size:35px !important;">
+					lock </md-icon> 
+					<input type="password" name="password" style="margin-top:6px;" required
+						ng-model="ctrl.user.password"> </md-input-container>
+
+				</div>
+				
+				<div flex='20' style="padding-top: 2.5%;">
+					<md-button ng-hide="loginProgress" style="border-radius:5px !important;" class="md-raised md-primary"
+						ng-click="ctrl.validateUser()">LOGIN</md-button>
+					
+					<md-progress-circular ng-show="loginProgress"
+						md-mode="indeterminate"></md-progress-circular>
+
+					<input type="submit" style="display: none;" />
+
+				</div>
+
+
+			</div>
+		</form>
+	<div align="right" style="padding-right: 3%;">
+	<small class="md-caption">
+		<span ng-show="errorMessage.length>0" class="errorMessage">{{errorMessage}}</span></small>
+	</div>
+</div>
+</div>
+</div>
+
+<div  flex class="loginImages">
+ 	<h2 class="owLoginImgText">VGS Management System</h2>
+	<img style="height:100%;width:100%;" src="images/loginImage.jpg">
+</div> 
+</div>
+</div>
+
+
+
+
+

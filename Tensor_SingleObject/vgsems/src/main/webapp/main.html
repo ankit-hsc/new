@@ -1,0 +1,90 @@
+<!-- 
+ ***************************************************************************************************
+ -- FILENAME      : main.html
+ --	DESCRIPTION   : file to generate layout of home page
+ --
+ --  Copyright	  : Copyright  (c) 2017.
+ --  Company      : ISRO.
+ --
+ --  Revision History
+ -- ------------------------------------------------------------------------------------------------
+ -- |VERSION|	Date				|	Author    				|	Reason for Changes				|
+ -- ------------------------------------------------------------------------------------------------
+ -- |	0.1 | 30th October, 2017    |	Suresh Ungarala			|	Initial Draft  					|
+ --	------------------------------------------------------------------------------------------------
+ --
+ ****************************************************************************************************
+ -->
+
+<div flex layout="column">
+	<div class="owHeader" ng-show="showHeaderNavigation" layout="row" >
+		<div align="left" class="owHeaderLogo">
+			<img alt="" ng-src="images/loginlogo.svg" class="owHeaderImage">
+		</div>
+		<div flex align="center">
+				<div class="owHeaderText">VGS Management System</div>
+		</div>
+		<div flex="20" align="right"></div>
+	</div>
+	<div flex="7" ng-show="showHeaderNavigation" style="height: 45px">
+
+
+		<ul class="main-navigation" style="height:44px;">
+		
+			<li ><a href="#!/home" style="line-height: 36px;">HOME</a></li>
+			<li class="menuTextColor">|</li>
+
+			<li><a href="#!/currentalarm" style="line-height: 36px;">ALARMS</a>
+				<ul>
+					<li ><a href="#!/currentalarm">Current Alarms</a></li>
+					<li ng-if="enableAllScreen"><a href="#!/alarmhistory">Archived Alarms</a></li>
+				</ul></li>
+
+		
+			<li class="menuTextColor">|</li>
+			<li ng-disabled="!enableAllScreen"><a  href="#!/beamConfig" style="line-height: 36px;">CONFIGURATION</a>
+				<ul>
+					<li ng-if="enableAllScreen"><a href="#!/beamConfig">Beam</a></li>
+					<li ng-if="enableAllScreen"><a href="#!/commChannelconfig">Communication Channel</a></li>
+					<li ng-if="enableAllScreen"><a href="#!/terminalConfig">Terminal</a></li>
+				</ul></li>
+			<li class="menuTextColor" >|</li>
+			<li><a  href="#!/sigModem" style="line-height: 36px;">INVENTORY</a>
+				<ul>
+					<li ng-if="enableAllScreen"><a href="#!/sigModem">Signal Modem</a></li>
+					<li ng-if="enableAllScreen"><a href="#!/dataModem">Communication Modem</a></li>
+					<li ng-if="enableAllScreen"><a href="#!/pstn">PSTN Termination</a></li>
+					<li ng-if="enableAllScreen"><a href="#!/smsGateway">SMS Gateway</a></li>
+					<li ng-if="enableAllScreen"><a href="#!/provision">Provision</a></li>
+				</ul></li>
+			<li class="menuTextColor">|</li>
+			<li><a  href="#!/activeCallStatus" style="line-height: 36px;">STATUS</a>
+				<ul>
+						<li ng-if="enableAllScreen"><a href="#!/activeCallStatus">Active Calls</a></li>
+						<li ng-if="enableAllScreen"><a href="#!/recentCallStatus">Recent Calls</a></li>
+						<li ng-if="enableAllScreen"><a href="#!/smsStatus">SMS</a></li>
+				</ul></li>
+			<li class="menuTextColor">|</li>
+			<li ><a href="#!/statistics" style="line-height: 36px;">STATISTICS</a></li>
+			
+			<li class="menuTextColor">|</li>
+			<li ><a href="#!/auditLog" style="line-height: 36px;">AUDIT LOGS</a></li>
+
+			<li style="float: right; line-height: 36px;">
+			<div style="float:left;padding-right:10px;">
+				<md-icon class="alarm material-icons" style="font-size: 30px !important;">alarm</md-icon>
+			</div>
+			<div style="float:left;background:white;border-radius:10px;font-size:15px;color:red;margin-right:30px;min-width: 30px;text-align: center;line-height:26px;margin-top:9px"><span>{{activeAlarmCount}}</span></div>
+			<div style="float:left;"><md-icon class="account_circle material-icons" style="font-size: 30px !important;margin-right: 20px">account_circle
+					<md-tooltip md-direction="bottom"><b>{{displayName}}</b></md-tooltip></md-icon></div>
+					
+				<div ng-controller="LoginCtrl as loginctrl" style="float:left;cursor:pointer;"><a ng-click="loginctrl.logOut()" style="padding-right:10px;color:#fff;font-size:14px;">LOGOUT</a> </div></li>
+		</ul>
+
+	</div>
+
+	<div flex layout="row" style="overflow-x: hidden; overflow-y: auto; background: #fff;"
+		ng-view ng-class="{centerViewPanel:showHeaderNavigation}" ng-cloak></div>
+	</div>
+<!--  </div> -->
+

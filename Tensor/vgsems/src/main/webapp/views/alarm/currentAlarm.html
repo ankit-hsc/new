@@ -1,0 +1,78 @@
+<!-- 
+ ***************************************************************************************************
+ -- FILENAME      : currentAlarm.html
+ --	DESCRIPTION   : file to generate layout of current alarm page
+ --
+ --  Copyright	  : Copyright  (c) 2017.
+ --  Company      : ISRO.
+ --
+ --  Revision History
+ -- ------------------------------------------------------------------------------------------------
+ -- |VERSION|	Date				|	Author    				|	Reason for Changes				|
+ -- ------------------------------------------------------------------------------------------------
+ -- |	0.1 | 30th November, 2017 	|	Suresh Unagarala		|	initial draft  					|
+ --	------------------------------------------------------------------------------------------------
+ --
+ ****************************************************************************************************
+-->
+
+<div flex align="center" style="font-size:13px">
+<page-header header="Current Alarms" success="successMessage" error="errorMessage"></page-header>
+
+<div>
+		<div flex ng-controller="paginationCtrl" style="width: 100%;">
+			<datatable-header title=""
+				search="datatableObj.searchText"></datatable-header>
+
+			<md-table-container>
+			<table md-table md-row-select multiple ng-model="selected">
+				<thead md-head class="tableHeaderBg"
+					md-order="datatableObj.sortField" md-on-reorder="updateSorting">
+					<tr md-row>
+						<th md-column md-order-by="alarmId" align="center" >ID</th>
+						<th md-column md-order-by="raiseTimeStr" align="center" >Time Reported</th>
+						<th md-column md-order-by="alarmType" align="center" >Alarm Type</th>
+						<th md-column md-order-by="description" align="center" >Alarm Description</th>
+						<th md-column md-order-by="component" align="center" >Component</th>
+						<th md-column md-order-by="componentInstance" align="center" >Component Instance</th>
+						<th md-column md-order-by="componentIp" align="center" >Component IP Address/Port</th>
+						<th md-column md-order-by="severity" align="center" >Alarm Severity</th>
+					</tr>
+				</thead>
+				<tbody md-body>
+					<tr md-row
+						ng-repeat="component in currentAlarms | orderBy:datatableObj.sortField | filter: datatableObj.searchText | limitTo : datatableObj.limit : (datatableObj.defaultPage-1)*datatableObj.limit"
+						md-select="component" ng-class-odd="'odd'" ng-class-even="'even'" ng-disabled="disableUnAuthEditGlobal" >
+						<td md-cell align="center">{{component.alarmId}}</td>
+						<td md-cell align="center">{{component.raiseTimeStr || ''}}</td>
+						<td md-cell align="center">{{component.alarmType}}</td>
+						<td md-cell align="center">{{component.description}}</td>
+						<td md-cell align="center">{{component.component}}</td>
+						<td md-cell align="center">{{component.componentInstance}}</td>
+						<td md-cell align="center">{{component.componentIp}}</td>
+						<td md-cell align="center" ng-class="{redcolor:component.severity==='Critical',orangecolor:(component.severity==='Major' || component.severity==='Minor'),greencolor:component.severity==='Informational'}">{{component.severity}}</td>
+					</tr>
+					<tr md-row ng-show="currentAlarms.length==0">
+						<td colspan="8" align="center" class="noDataText">No data available</td>
+					</tr>
+				</tbody>
+			</table>
+			</md-table-container>
+			<md-table-pagination md-limit="datatableObj.limit"
+				md-limit-options="datatableObj.records"
+				md-page="datatableObj.defaultPage"
+				md-on-paginate="onPaginate"
+				md-total="{{currentAlarms?(currentAlarms|filter:datatableObj.searchText).length:0}}"
+				md-page-select></md-table-pagination>
+			<br>
+		</div>
+	</div>
+	<form name="sigModemConfigForm">
+		<div>
+			<md-button
+				ng-disabled="disableUnAuthEditGlobal || selected.length==0"
+				ng-click="showConfirm()" class="md-raised md-primary">Clear</md-button>
+		</div>
+	</form>
+		<!-- <div layout="row" style="font-size:12px"><i><b>Note</b>: Informational and Warning alarms can't be Acknowledged / UnAcknowledged / Force Cleared</i></div> -->
+</div>

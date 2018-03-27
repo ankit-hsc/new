@@ -1,0 +1,78 @@
+<!-- 
+ ***************************************************************************************************
+ -- FILENAME      : auditLogs.html
+ --	DESCRIPTION   : file to generate layout for the logs
+ --
+ --  Copyright	  : Copyright  (c) 2017.
+ --  Company      : ISRO.
+ --
+ --  Revision History
+ -- ------------------------------------------------------------------------------------------------
+ -- |VERSION|	Date				|	Author    				|	Reason for Changes				|
+ -- ------------------------------------------------------------------------------------------------
+ -- |	0.1 | 2nd January, 2018 	|	AKHILANAND PRASAD		|	initial draft  					|
+ --	------------------------------------------------------------------------------------------------
+ --
+ ****************************************************************************************************
+-->
+
+<div flex style="font-size:13px">
+<page-header header="Audit Logs" success="successMessage" error="errorMessage"></page-header>
+
+	<div>
+		<div flex ng-controller="paginationCtrl" style="width: 100%;">
+			
+			<div layout="row" layout-align="space-between center">
+				<md-button class="md-primary" ng-click="exportToExcel('#auditTable')" ng-disabled="auditRecords.length<1">
+					<i class="material-icons" style="vertical-align: text-bottom;">reply</i>Export &nbsp;
+				</md-button>
+				<datatable-header title="" search="datatableObj.searchText"></datatable-header>
+			</div>
+
+			<md-table-container>
+				<table md-table id="auditTable">
+					<thead md-head class="tableHeaderBg" md-order="datatableObj.sortField" md-on-reorder="updateSorting">
+						<tr md-row>
+							<th md-column align="center" >User Name</th>
+							<th md-column align="center" >Operator IP</th>
+							<th md-column align="center" >Screen Name</th>
+							<th md-column align="center" >Operation</th>
+							<th md-column align="center" >Identifier</th>
+							<!-- <th md-column align="center" >Parameter Modified</th> -->
+							<th md-column align="center" >Old Value</th>
+							<th md-column align="center" >New Value</th>
+							<th md-column align="center" >Timestamp</th>
+						</tr>
+					</thead>
+					<tbody md-body>
+						<tr md-row ng-repeat="record in auditRecords | filter: datatableObj.searchText"
+							ng-class-odd="'odd'" ng-class-even="'even'">
+							<td md-cell align="center">{{record.userName}}</td>
+							<td md-cell align="center">{{record.operatorIP}}</td>
+							<td md-cell align="center">{{record.screenName}}</td>
+							<td md-cell align="center">{{record.operation}}</td>
+							<td md-cell align="center">{{record.identifier}}</td>
+							<!-- <td md-cell align="center">{{record.paramModified}}</td> -->
+							<td md-cell align="center">{{record.oldVal}}</td>
+							<td md-cell align="center">{{record.newVal}}</td>
+							<td md-cell align="center">{{record.timeStampStr}}</td>
+						</tr>
+						<!-- <tr md-row ng-show="auditRecords.length==0">
+							<td colspan="9" align="center" class="noDataText">No Logs available</td>
+						</tr> -->
+					</tbody>
+				</table>
+				<h3 class="noDataText" ng-show="auditRecords.length==0" style="text-align: center;">No Logs available</h3>
+			</md-table-container>
+			
+			<md-table-pagination md-limit="datatableObj.limit"
+				md-limit-options="datatableObj.records"
+				md-page="datatableObj.defaultPage"
+				md-on-paginate="fetchAuditRecords"
+				md-total="{{totalRecords}}"
+				md-page-select>
+			</md-table-pagination>
+			<br>
+		</div>
+	</div>
+</div>

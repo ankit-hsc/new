@@ -1,0 +1,99 @@
+<!-- 
+ ***************************************************************************************************
+ -- FILENAME      : commchannel.html
+ --	DESCRIPTION   : file to update the configuration of Communication channel(s)
+ --
+ --  Copyright	  : Copyright  (c) 2017.
+ --  Company      : ISRO.
+ --
+ --  Revision History
+ -- ------------------------------------------------------------------------------------------------
+ -- |VERSION|	Date				|	Author    					|	Reason for Changes				|
+ -- ------------------------------------------------------------------------------------------------
+ -- |	0.1 | 4th December, 2017 	|	Suresh Ungarala 			|	initial draft  					|
+ --	------------------------------------------------------------------------------------------------
+ --
+ ****************************************************************************************************
+-->
+
+
+<div layout="column" flex align="center" style="font-size:13px">
+	<page-header header="Communication Channel" success="successMessage"
+		error="errorMessage"></page-header>
+
+	<div class="singleLineSpace"></div>
+	
+	<div class="singleLineSpace"></div>
+	<div>
+	<div layout="row" layout-align="center">
+	<md-input-container>
+		<label> Beam </label>
+							<md-select ng-model="beamId" ng-change="getCommChannelData(beamId)" >
+							<md-option ng-value="beam[0]" ng-repeat="beam in beamIds" ng-selected="$first">{{beam[1]}}</md-option>
+							</md-select> </md-input-container></div>
+		<div flex ng-controller="paginationCtrl" style="width: 100%;">
+			<datatable-header title=""
+				search="datatableObj.searchText"></datatable-header>
+
+			<md-table-container>
+			<table md-table md-row-select multiple ng-model="selected">
+				<thead md-head class="tableHeaderBg"
+					md-order="datatableObj.sortField" md-on-reorder="updateSorting">
+					<tr md-row>
+						<th md-column md-order-by="commChId" align="center" rowspan="2" >Channel ID</th>
+						<th md-column md-order-by="txFreq" align="center" rowspan="2">Tx Freq GHz</th>
+						<th md-column md-order-by="rxFreq" align="center" rowspan="2" >Rx Freq GHz</th>
+						<th md-column md-order-by="pairId" align="center" rowspan="2">Frequnecy  Pair ID</th>
+						<th md-column md-order-by="statusSelected" align="center" rowspan="2">Status *</th>
+						<th md-column align="center" colspan="4" style="text-align: center;" class="applyBorderColor">Allocation Details (If Allocated)</th>
+						<th md-column md-order-by="lastUpdateTimeStr" align="center" rowspan="2" style="text-align: center;">Time Of Last Status Change</th>
+					</tr>
+					<tr md-row>
+						<th md-column md-order-by="terminalId" align="center" style="text-align: center;">Terminal ID</th>
+						<th md-column md-order-by="modemId" align="center" style="text-align: center;">Modem ID</th>
+						<th md-column md-order-by="callId" align="center" style="text-align: center;">Call ID</th>
+						<th md-column md-order-by="serverIp" align="center" style="text-align: center;">Server IP Address</th>
+						</tr>
+				</thead>
+				<tbody md-body>
+					<tr md-row ng-repeat="component in commChannelData | orderBy:datatableObj.sortField | filter: datatableObj.searchText | limitTo : datatableObj.limit : (datatableObj.defaultPage-1)*datatableObj.limit"
+						md-select="component" ng-class-odd="'odd'" ng-class-even="'even'" ng-disabled="disableUnAuthEditGlobal" md-on-select="selectRow" md-on-deselect="deselectRow">
+						<td md-cell align="center">{{component.commChId || ''}}</td>
+						<td md-cell align="center">{{component.txFreq || ''}}</td>
+						<td md-cell align="center">{{component.rxFreq || ''}}</td>
+						<td md-cell align="center">{{component.pairId || ''}}</td>
+						<td md-cell align="center"><md-input-container>
+							<md-select class="boldtext" aria-label="statusSelected" ng-model="component.statusSelected" placeholder={{component.status}} ng-init="component.statusSelected=component.status" ng-disabled="!component.rowSelected">
+							<md-option
+								ng-value="status.name" ng-repeat="status in statusMap">{{status.name}}</md-option>
+							</md-select> </md-input-container></td>
+						<td md-cell align="center" style="text-align: center;">{{component.terminalId || ''}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.modemId || ''}}</td>
+						<td md-cell align="center" style="text-align: center;"><a href="" ng-click="showCallDetails(component.callId)" style="text-decoration:none;">{{component.callId || ''}}</a></td>
+						<td md-cell align="center" style="text-align: center;">{{component.serverIp}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.lastUpdateTimeStr}}</td>
+					</tr>
+					<tr md-row ng-show="commChannelData.length==0">
+						<td colspan="10" align="center" class="noDataText">No data available</td>
+					</tr>
+				</tbody>
+			</table>
+			</md-table-container>
+			<md-table-pagination md-limit="datatableObj.limit"
+				md-limit-options="datatableObj.records"
+				md-page="datatableObj.defaultPage"
+				md-on-paginate="onPaginate"
+				md-total="{{commChannelData?(commChannelData|filter:datatableObj.searchText).length:0}}"
+				md-page-select></md-table-pagination>
+			<br>
+		</div>
+	</div>
+	<form name="commChannelForm">
+		<div>
+			<md-button
+				ng-disabled="disableUnAuthEditGlobal || selected.length==0"
+				ng-click="showConfirm()" class="md-raised md-primary">Update</md-button>
+		</div>
+	</form>
+</div>
+

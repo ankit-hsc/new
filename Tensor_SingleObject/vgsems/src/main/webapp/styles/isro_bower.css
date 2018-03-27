@@ -1,0 +1,192 @@
+/* 
+ *******************************************************************************************************
+ -- FILENAME      : isro_bower.css
+ --	DESCRIPTION   : Css file to contain modified original angular material classes
+ --
+ --  Copyright	  : Copyright  (c) 2016.
+ --  Company      : Hughes Network Systems.
+ --
+ --  Revision History
+ -- -----------------------------------------------------------------------------------------------------
+ -- |VERSION|	Date				|	Author    				|	Reason for Changes					|
+ -- -----------------------------------------------------------------------------------------------------
+ -- |	0.1 | 30th November, 2017  	|	Suresh Ungarala			|	initial draft  						|
+ --	-----------------------------------------------------------------------------------------------------
+ --
+ ********************************************************************************************************
+ */
+ 
+md-icon.person, md-icon.lock {
+	color: #f37216;
+}
+
+md-icon.alarm,md-icon.account_circle{
+	color:white;
+}
+
+md-input-container.md-input-invalid>md-icon.person, md-input-container.md-input-invalid>md-icon.lock
+	{
+	color: red;
+}
+
+md-toast.md-warning-theme .md-toast-content {
+	background-color: #f0470f;
+}
+md-toast.md-error-theme .md-toast-content{
+	background-color: red;
+}
+md-input-container{
+	margin: 0px;
+}
+.md-button.md-default-theme.md-primary.md-raised, .md-button.md-primary.md-raised,
+	.md-button.md-default-theme.md-primary.md-fab, .md-button.md-primary.md-fab
+	{
+	color: #fff;
+	font-weight: normal;
+	font-size: 14px;
+}
+
+.md-button {
+	text-transform: none !important;
+	border-radius:0px;
+}
+
+.md-datepicker-button {
+	left: 175px;
+}
+
+md-datepicker {
+	margin-right: 40px;
+}
+
+.owtabs .md-tab {
+	text-transform: none;
+	font-size: 16px;
+	color: #777;
+}
+
+.owtabs md-pagination-wrapper {
+	right: 0;
+	left: auto;
+}
+
+table.md-table th.md-column md-icon:not (:first-child ){
+	margin-left: 0px;
+}
+
+md-toolbar {
+	min-height: 35px !important;
+	height: 35px;
+	background-color: #fff !important;
+}
+
+.md-toolbar-tools {
+	padding: 0;
+}
+
+tr.md-row {
+	height: 30px !important;
+}
+
+.md-table-pagination {
+	color: #222;
+	background-color: #fff;
+	border-bottom: 1px solid #005dac;
+}
+
+.md-table-pagination>* {
+	height: 30px;
+}
+
+.md-table-pagination md-icon {
+	color: #222;
+}
+
+table.md-table:not (.md-row-select ) td.md-cell:nth-child(n+2):nth-last-child(n+2),
+	table.md-table:not (.md-row-select ) th.md-column:nth-child(n+2):nth-last-child(n+2)
+	{
+	padding: 0;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+table.md-table:not (.md-row-select ) td.md-cell:first-child, table.md-table:not
+	(.md-row-select ) th.md-column:first-child {
+	padding: 0;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+table.md-table td.md-cell, table.md-table th.md-column {
+	vertical-align: middle;
+	text-align: left;
+}
+table.md-table:not(.md-row-select) td.md-cell:nth-child(n+2):nth-last-child(n+2), table.md-table:not(.md-row-select) th.md-column:nth-child(n+2):nth-last-child(n+2) {
+    padding: 0 15px 0 0;
+}
+table.md-table.md-row-select td.md-cell:nth-child(n+3):nth-last-child(n+2), table.md-table.md-row-select th.md-column:nth-child(n+3):nth-last-child(n+2) {
+    padding: 0 15px 0 0;
+}
+table.md-table td.md-cell:last-child, table.md-table th.md-column:last-child {
+    padding: 0 15px 0 0;
+}
+tbody.md-body>tr.md-row {
+	background-color: whitesmoke;
+}
+
+md-icon{
+	min-height: 16px;
+	min-width: 16px;
+}
+
+md-tabs-canvas {
+	background: #ffffff;
+}
+
+md-tabs .md-tab.md-active{
+	color: #005dac;
+}
+
+md-tabs.md-default-theme md-ink-bar, md-tabs md-ink-bar {
+    color: #72bb5f !important;
+    background-color:#72bb5f !important;
+}
+
+md-input-container.md-default-theme:not(.md-input-invalid).md-input-has-value label, md-input-container:not(.md-input-invalid).md-input-has-value label {
+    color: #005dac;
+    font-size: 18px;
+}
+
+md-input-container.md-input-invalid label{
+	font-size: 18px;
+}
+
+md-input-container:not(.md-input-invalid).md-input-focused label{
+	font-size: 18px;
+}
+
+md-checkbox.md-default-theme.md-checked .md-icon, md-checkbox.md-checked .md-icon
+{
+	background-color: #158bd3;
+}
+
+th md-checkbox.md-checked .md-icon, th md-checkbox:not(.md-checked) .md-icon{
+	border-color: rgba(0, 0, 0, 0.6) !important;
+}
+md-backdrop {
+    background-color: rgba(33,33,33,0.5);
+}
+.amcharts-pie-slice {
+	cursor: pointer;
+}
+md-content.md-default-theme, md-content {
+    background-color: #fff;
+}
+.md-title {
+    font-size: 14px;
+}
+table.md-table th.md-column{
+	font-size:13px;
+	font-weight:bold;
+}
+

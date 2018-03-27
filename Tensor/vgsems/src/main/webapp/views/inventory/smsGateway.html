@@ -1,0 +1,84 @@
+<!-- 
+ ***************************************************************************************************
+ -- FILENAME      : smsGateWay.html
+ --	DESCRIPTION   : file to update the configuration of SMS GateWay(s)
+ --
+ --  Copyright	  : Copyright  (c) 2017.
+ --  Company      : ISRO.
+ --
+ --  Revision History
+ -- ------------------------------------------------------------------------------------------------
+ -- |VERSION|	Date				|	Author    					|	Reason for Changes				|
+ -- ------------------------------------------------------------------------------------------------
+ -- |	0.1 | 4th December, 2017 	|	Suresh Ungarala 			|	initial draft  					|
+ --	------------------------------------------------------------------------------------------------
+ --
+ ****************************************************************************************************
+-->
+
+
+<div layout="column" flex align="center" style="font-size:13px">
+	<page-header header="SMS Gateway" success="successMessage"
+		error="errorMessage"></page-header>
+
+	<div class="singleLineSpace"></div>
+	
+	<div class="singleLineSpace"></div>
+	<div>
+		<div flex ng-controller="paginationCtrl" style="width: 100%;">
+			<datatable-header title=""
+				search="datatableObj.searchText"></datatable-header>
+			<md-table-container>
+			<table md-table md-row-select multiple ng-model="selected">
+				<thead md-head class="tableHeaderBg"
+					md-order="datatableObj.sortField" md-on-reorder="updateSorting">
+					<tr md-row>
+						<th md-column md-order-by="gatewayId" align="center">ID</th>
+						<th md-column md-order-by="model" align="center">Model</th>
+						<th md-column md-order-by="gsmNumber" align="center">GSM Number</th>
+						<th md-column md-order-by="gatewayIp" align="center">Gateway/Server IP Address</th>
+						<th md-column md-order-by="gatewayPort" align="center">Port</th>
+						<th md-column md-order-by="statusSelected" align="center">Status  *</th>
+						<th md-column md-order-by="lastUpdateTimeStr" align="center">Time Of Last Status Change</th>
+					</tr>
+					
+				</thead>
+				<tbody md-body>
+					<tr md-row
+						ng-repeat="component in smsGatewayData | orderBy:datatableObj.sortField | filter: datatableObj.searchText | limitTo : datatableObj.limit : (datatableObj.defaultPage-1)*datatableObj.limit"
+						md-select="component" ng-class-odd="'odd'" ng-class-even="'even'" ng-disabled="disableUnAuthEditGlobal" md-on-select="selectRow" md-on-deselect="deselectRow">
+						<td md-cell align="center">{{component.gatewayId}}</td>
+						<td md-cell align="center">{{component.model || ''}}</td>
+						<td md-cell align="center">{{component.gsmNumber || ''}}</td>
+						<td md-cell align="center">{{component.gatewayIp}}</td>
+						<td md-cell align="center" >{{component.gatewayPort || ''}}</td>
+						<td md-cell align="center"><md-input-container>
+							<md-select aria-label="statusSelected" ng-model="component.statusSelected" placeholder={{component.status}} ng-init="component.statusSelected=component.status" ng-disabled="!component.rowSelected">
+							<md-option ng-value="status.name" ng-repeat="status in statusMap">{{status.name}}</md-option>
+							</md-select> </md-input-container></td>
+						<td md-cell align="center" >{{component.lastUpdateTimeStr}}</td>
+					</tr>
+					<tr md-row ng-show="smsGatewayData.length==0">
+						<td colspan="7" align="center" class="noDataText">No data available</td>
+					</tr>
+				</tbody>
+			</table>
+			</md-table-container>
+			<md-table-pagination md-limit="datatableObj.limit"
+				md-limit-options="datatableObj.records"
+				md-page="datatableObj.defaultPage"
+				md-on-paginate="onPaginate"
+				md-total="{{smsGatewayData?(smsGatewayData|filter:datatableObj.searchText).length:0}}"
+				md-page-select></md-table-pagination>
+			<br>
+		</div>
+	</div>
+	<form name="smsGatewayForm">
+		<div>
+			<md-button
+				ng-disabled="disableUnAuthEditGlobal || (selected.length==0 && !smsGatewayForm.$dirty)"
+				ng-click="showConfirm()" class="md-raised md-primary">Update</md-button>
+		</div>
+	</form>
+</div>
+

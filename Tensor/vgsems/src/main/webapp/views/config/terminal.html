@@ -1,0 +1,109 @@
+<!-- 
+ ***************************************************************************************************
+ -- FILENAME      : terminal.html
+ --	DESCRIPTION   : file to update the configuration of terminal(s)
+ --
+ --  Copyright	  : Copyright  (c) 2017.
+ --  Company      : ISRO.
+ --
+ --  Revision History
+ -- ------------------------------------------------------------------------------------------------
+ -- |VERSION|	Date				|	Author    					|	Reason for Changes				|
+ -- ------------------------------------------------------------------------------------------------
+ -- |	0.1 | 4th December, 2017 	|	Suresh Ungarala 			|	initial draft  					|
+ --	------------------------------------------------------------------------------------------------
+ --
+ ****************************************************************************************************
+-->
+
+
+<div layout="column" flex align="center" style="font-size:13px">
+	<page-header header="Terminal" success="successMessage"
+		error="errorMessage"></page-header>
+
+	<div class="singleLineSpace"></div>
+	
+	<div class="singleLineSpace"></div>
+	<div>
+		<div layout="row" layout-align="center">
+	<md-input-container>
+		<label> Organization </label>
+				<md-select style="margin:0px 0px 0px 0px;width:200px;" ng-model="orgs" ng-change="onPaginate()"  placeholder="Organization" md-on-close="filterByOrgNames()">
+					<!-- <md-input-container style="padding: 6px 0px 0px 15px;"><md-checkbox  ng-change="selectAll()" class="dashMiniHeader" ng-model="isAllSelected" >ALL</md-checkbox>
+					</md-input-container> -->
+					<md-option  class="dashMiniHeader" ng-value="data.groupName" ng-repeat="data in orgData">{{data.groupName}}</md-option></md-select>
+	</md-input-container></div>
+		<div flex ng-controller="paginationCtrl" style="width: 100%;">
+			<datatable-header title=""
+				search="datatableObj.searchText"></datatable-header>
+
+			<md-table-container>
+			<table md-table md-row-select multiple ng-model="selected">
+				<thead md-head class="tableHeaderBg"
+					md-order="datatableObj.sortField" md-on-reorder="updateSorting">
+					<tr md-row>
+						<th md-column md-order-by="orgGroupName" align="center" rowspan="2">Organization</th>
+						<th md-column md-order-by="terminalId" align="center" rowspan="2">Terminal Number (ID)</th>
+						<th md-column md-order-by="terminalName" align="center" rowspan="2"> Name  *</th>
+						<th md-column md-order-by="modelId" align="center" rowspan="2">Model<br> &nbsp; &nbsp; &nbsp; &nbsp; Type</th>
+						<th md-column md-order-by="priority" align="center" rowspan="2">Priority</th>
+						<th md-column md-order-by="ip" align="center" rowspan="2">Allocated IP</th>
+						<th md-column md-order-by="statusSelected" align="center" rowspan="2">Status *</th>
+						<th md-column align="center" colspan="2" style="text-align:center;" class="applyBorderColor">Last Known Position </th>
+						<th md-column align="center" colspan="3" style="text-align:center;" class="applyBorderColor">Call Details (If Busy)</th>
+						<th md-column md-order-by="lastUpdateTimeStr" align="center" rowspan="2" style="text-align:center;">Time Of Last Activity</th>
+					</tr>
+					<tr md-row>
+						<th md-column md-order-by="beamId" align="center" style="text-align: center;">Beam</th>
+						<th md-column md-order-by="customGps" align="center" style="text-align: center;">GPS</th>
+						<th md-column md-order-by="commChId" align="center" style="text-align: center;">Communication Channel ID</th>
+						<th md-column md-order-by="modemId" align="center" style="text-align: center;">Modem ID</th>
+						<th md-column md-order-by="callId" align="center" style="text-align: center;">Call ID</th>
+						</tr>
+				</thead>
+				<tbody md-body>
+					<tr md-row
+						ng-repeat="component in filteredData | orderBy:datatableObj.sortField | filter: datatableObj.searchText | limitTo : datatableObj.limit : (datatableObj.defaultPage-1)*datatableObj.limit"
+						md-select="component" ng-class-odd="'odd'" ng-class-even="'even'" ng-disabled="disableUnAuthEditGlobal" md-on-select="selectRow" md-on-deselect="deselectRow">
+						<td md-cell align="center" style="text-align: center;">{{component.orgGroupName}}</td>
+						<td md-cell align="center" style="text-align: center;"><a href="" ng-click="showTerminalCallDetails(component.terminalId)" style="text-decoration:none;">{{component.terminalId}}</a></td>
+						<td md-cell align="center" style="text-align: center;"><md-input-container style="height: 30px;"> <input name="terminalName" ng-disabled="!component.rowSelected"
+													ng-model="component.terminalName" aria-label="terminalName"> </md-input-container></td>
+						<td md-cell align="center" style="text-align: center;">{{component.modelId || ''}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.priority}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.ip}}</td>
+						<td md-cell align="center"><md-input-container>
+							<md-select aria-label="statusSelected" ng-model="component.statusSelected" placeholder={{component.status}} ng-init="component.statusSelected=component.status" ng-disabled="!component.rowSelected"><md-option
+								ng-value="status.name" ng-repeat="status in statusMap">{{status.name}}</md-option>
+							</md-select> </md-input-container></td>
+						<td md-cell align="center" style="text-align: center;">{{component.beamName || ''}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.customGps || ''}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.commChId || ''}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.modemId || ''}}</td>
+						<td md-cell align="center" style="text-align: center;"><a href="" ng-click="showCallDetails(component.callId)" style="text-decoration:none;">{{component.callId || ''}}</a></td>
+						<td md-cell align="center" style="text-align: center;">{{component.lastUpdateTimeStr}}</td>
+					</tr>
+					<tr md-row ng-show="filteredData.length==0">
+						<td colspan="13" align="center" class="noDataText">No data available</td>
+					</tr>
+				</tbody>
+			</table>
+			</md-table-container>
+			<md-table-pagination md-limit="datatableObj.limit"
+				md-limit-options="datatableObj.records"
+				md-page="datatableObj.defaultPage"
+				md-on-paginate="onPaginate"
+				md-total="{{filteredData?(filteredData|filter:datatableObj.searchText).length:0}}"
+				md-page-select></md-table-pagination>
+			<br>
+		</div>
+	</div>
+	<form name="terminalForm">
+		<div>
+			<md-button
+				ng-disabled="disableUnAuthEditGlobal || (selected.length==0 && !terminalForm.$dirty)"
+				ng-click="showConfirm()" class="md-raised md-primary">Update</md-button>
+		</div>
+	</form>
+</div>
+

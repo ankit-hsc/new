@@ -1,0 +1,27 @@
+<!-- 
+ ***************************************************************************************************
+ -- FILENAME      : loadingPage.html
+ --	DESCRIPTION   : file to show loading mask when backend is hit
+ --
+ --  Copyright	  : Copyright  (c) 2017.
+ --  Company      : ISRO.
+ --
+ --  Revision History
+ -- ------------------------------------------------------------------------------------------------
+ -- |VERSION|	Date				|	Author    				|	Reason for Changes				|
+ -- ------------------------------------------------------------------------------------------------
+ -- |	0.1 | 30th November, 2017  	|	Suresh Ungarala			|	initial draft  					|
+ --	------------------------------------------------------------------------------------------------
+ --
+ ****************************************************************************************************
+-->
+<md-dialog> <md-dialog-content>
+<div layout="column" flex
+	style="padding: 40px"
+	align="center">
+	<div ng-bind="word"></div>
+	<small class="md-caption"><span class="successMessage">{{loadingTitle}}</span></small>
+	<div class="singleLineSpace"></div>
+		<md-progress-circular md-diameter="40" class="md-accent" style="width:200px;" md-mode="indeterminate"></md-progress-linear>
+</div>
+</md-dialog-content> </md-dialog>

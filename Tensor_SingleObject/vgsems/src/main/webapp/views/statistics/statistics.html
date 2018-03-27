@@ -1,0 +1,61 @@
+<!-- 
+ ***************************************************************************************************
+ -- FILENAME      : statistics.html
+ --	DESCRIPTION   : file to display statistics data
+ --
+ --  Copyright	  : Copyright  (c) 2017.
+ --  Company      : ISRO.
+ --
+ --  Revision History
+ -- ------------------------------------------------------------------------------------------------
+ -- |VERSION|	Date				|	Author    					|	Reason for Changes				|
+ -- ------------------------------------------------------------------------------------------------
+ -- |	0.1 | 12th December, 2017 	|	Suresh Ungarala 			|	initial draft  					|
+ --	------------------------------------------------------------------------------------------------
+ --
+ ****************************************************************************************************
+-->
+
+<div flex layout="column" style="padding:1%">
+	<page-header header="Statistics" success="successMessage" error="errorMessage"></page-header>
+	
+	<div flex layout="row" layout-align="space-between center" style="margin:1%;padding:1%;">
+		<div style="width:33%;"></div>
+		<div style="width:32%;text-align: center;">
+		<md-input-container>
+			<label> Date </label>
+			<md-select ng-model="date" ng-change="getStatData()" >
+			<md-option ng-value="date" ng-repeat="date in dates" ng-selected="$first">{{date}}</md-option>
+			</md-select>
+		</md-input-container>
+		</div>
+		<div style="width:33%;">
+	    <md-tabs md-dynamic-height md-border-bottom md-selected="selectedIndex">
+	      <md-tab label="Services" md-on-select="onTabSelected(0)">
+	      </md-tab>
+	      <md-tab label="Resources" md-on-select="onTabSelected(1)">
+	      </md-tab>
+	    </md-tabs>
+		</div>
+	</div>
+	
+	<div ng-show="showServices" flex layout="row" layout-align="space-between start" style="margin:1%;min-height:350px;" ngCloak>
+		<div id="callAttemptChartdiv" md-whiteframe="12" style="min-height:350px;width:33%;border:0.5px solid darkgrey;"></div>
+		<div id="activeCallchartdiv" md-whiteframe="12" style="min-height:350px;width:32%;border:0.5px solid darkgrey;"></div>
+		<div id="droppedCallchartdiv" md-whiteframe="12" style="min-height:350px;width:33%;border:0.5px solid darkgrey;"></div>
+	</div>
+	<div ng-show="showServices" flex layout="row" layout-align="space-between start" style="margin:1%;min-height:350px;" ngCloak>
+		<div id="regTerminalschartdiv" md-whiteframe="12" style="min-height:350px;width:49%;border:0.5px solid darkgrey;"></div>
+		<div id="smschartdiv" md-whiteframe="12" style="min-height:350px;width:49%;border:0.5px solid darkgrey;"></div>
+	</div>
+	<div ng-hide="showServices" flex layout="row" layout-align="space-between start" style="margin:1%;min-height:350px;" ngCloak>
+		<div id="commModemchartdiv" md-whiteframe="12" style="min-height:350px;width:33%;border:0.5px solid darkgrey;"></div>
+		<div id="pstnTrmntnIncomingchartdiv" md-whiteframe="12" style="min-height:350px;width:32%;border:0.5px solid darkgrey;"></div>
+		<div id="pstnTrmntnOutGoingchartdiv" md-whiteframe="12" style="min-height:350px;width:33%;border:0.5px solid darkgrey;"></div>
+	</div>
+	<div ng-hide="showServices" flex layout="row" layout-align="space-between start" style="margin:1%;min-height:350px;" ngCloak>
+		<div id="commChannelAllocChartdiv" md-whiteframe="12" style="min-height:350px;width:33%;border:0.5px solid darkgrey;"></div>
+		<div id="sigChnlFrwdChartdiv" md-whiteframe="12" style="min-height:350px;width:32%;border:0.5px solid darkgrey;"></div>
+		<div id="sigChnlRetnChartdiv" md-whiteframe="12" style="min-height:350px;width:33%;border:0.5px solid darkgrey;"></div>
+	</div>
+</div>

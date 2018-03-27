@@ -1,0 +1,85 @@
+<!-- 
+ ***************************************************************************************************
+ -- FILENAME      : provisionUpload.html
+ --	DESCRIPTION   : file to update the configuration of Beam(s)
+ --
+ --  Copyright	  : Copyright  (c) 2017.
+ --  Company      : ISRO.
+ --
+ --  Revision History
+ -- ------------------------------------------------------------------------------------------------
+ -- |VERSION|	Date				|	Author    					|	Reason for Changes				|
+ -- ------------------------------------------------------------------------------------------------
+ -- |	0.1 | 5th December, 2017 	|	Suresh Ungarala 			|	initial draft  					|
+ --	------------------------------------------------------------------------------------------------
+ --
+ ****************************************************************************************************
+-->
+
+<div layout="column" flex align="center" style="font-size:13px">
+	<page-header header="Provision" success="successMessage"
+		error="errorMessage"></page-header>
+
+	<div class="singleLineSpace"></div>
+	
+	<div class="singleLineSpace"></div>
+	<div>
+		<div flex class="divBorderRadius">
+			<div class="singleLineSpace"></div>
+			<div class="provisionTitle">Upload Provisioning Frequency File:</div>
+			<div class="singleLineSpace"></div>
+			<form name="provFreq" class="formLeftPadding">
+				<md-input-container class="largeInputBox">
+					<input aria-label="provFreq" type="text" data-ng-model="freqFiles[0].name" class="ng-pristine ng-valid" style="display: inline;" autofocus>
+				</md-input-container>
+				<md-input-container>
+				<input  aria-label="provFreq" id="provFreqId" type="file"  data-browse-file="freqFiles" style="display:none;" >
+				</md-input-container>
+				<md-button ng-click="browse('provFreqId');" class="md-raised md-accent buttnCls">Browse</md-button>
+				<md-button ng-click="uploadFreqFiles();" class="md-raised md-primary buttnCls" ng-disabled="disableUnAuthEditGlobal">Upload</md-button>
+				<md-button ng-click="downloadFreqData();" class="md-raised md-primary buttnCls">Download</md-button>
+			</form>
+		</div>
+		<div class="singleLineSpace"></div>
+		<div class="singleLineSpace"></div>
+		<div class="singleLineSpace"></div>
+		<div flex class="divBorderRadius">
+			<div class="singleLineSpace"></div>
+			<div class="provisionTitle">Upload Provisioning Terminal File:</div>
+			<div class="singleLineSpace"></div>
+			<form name="provTerminal" class="formLeftPadding">
+				<md-input-container class="largeInputBox">
+					<input   aria-label="provTerminal" type="text" data-ng-model="terminalFiles[0].name" class="ng-pristine ng-valid" style="display: inline;" >
+					</md-input-container>
+				<md-input-container>
+					<input  aria-label="provTerminal" id="provTerminalId" type="file"  data-browse-file="terminalFiles" style="display:none;">
+				</md-input-container>
+				<md-button ng-click="browse('provTerminalId');" class="md-raised md-accent buttnCls">Browse</md-button>
+				<md-button ng-click="uploadTerminalFiles();" class="md-raised md-primary buttnCls" ng-disabled="disableUnAuthEditGlobal">Upload</md-button>
+				<md-button ng-click="downloadTerminalData();" class="md-raised md-primary buttnCls">Download</md-button>
+			</form>
+		</div>
+		<div class="singleLineSpace"></div>
+		<div class="singleLineSpace"></div>
+		<div class="singleLineSpace"></div>
+		<div flex class="divBorderRadius">
+			<div class="singleLineSpace"></div>
+			<div class="provisionTitle">Upload Provisioning Inventory File:</div>
+			<div class="singleLineSpace"></div>
+			<form name="provInventory" class="formLeftPadding">
+				<md-input-container class="largeInputBox">
+					<input   aria-label="provInventory" type="text" data-ng-model="inventoryFiles[0].name" class="ng-pristine ng-valid" style="display: inline;" >
+					</md-input-container>
+				<md-input-container>
+					<input aria-label="provInventory"  id="provInventoryId" type="file"  data-browse-file="inventoryFiles" style="display:none;">
+				</md-input-container>
+				<md-button ng-click="browse('provInventoryId');" class="md-raised md-accent buttnCls">Browse</md-button>
+				<md-button ng-click="uploadInventoryFiles();" class="md-raised md-primary buttnCls" ng-disabled="disableUnAuthEditGlobal">Upload</md-button>
+				<md-button ng-click="downloadInventoryData();" class="md-raised md-primary buttnCls">Download</md-button>
+			</form>
+		</div>
+		<div class="singleLineSpace"></div>
+		<div class="singleLineSpace"></div>
+		<div class="singleLineSpace"></div>
+	</div>
+	</div>

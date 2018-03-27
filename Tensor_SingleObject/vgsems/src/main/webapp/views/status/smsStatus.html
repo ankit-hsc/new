@@ -1,0 +1,88 @@
+<!-- 
+ ***************************************************************************************************
+ -- FILENAME      : recentCallsStatus.html
+ --	DESCRIPTION   : file to monitor the recent calls
+ --
+ --  Copyright	  : Copyright  (c) 2017.
+ --  Company      : ISRO.
+ --
+ --  Revision History
+ -- ------------------------------------------------------------------------------------------------
+ -- |VERSION|	Date				|	Author    					|	Reason for Changes				|
+ -- ------------------------------------------------------------------------------------------------
+ -- |	0.1 | 4th December, 2017 	|	Suresh Ungarala 			|	initial draft  					|
+ --	------------------------------------------------------------------------------------------------
+ --
+ ****************************************************************************************************
+-->
+
+
+<div layout="column" flex align="center" style="font-size:13px">
+	<page-header header="SMS" success="successMessage"
+		error="errorMessage"></page-header>
+
+	<div class="singleLineSpace"></div>
+	
+	<div class="singleLineSpace"></div>
+	<div>
+		<div flex ng-controller="paginationCtrl" style="width: 100%;">
+			<datatable-header title=""
+				search="datatableObj.searchText"></datatable-header>
+
+			<md-table-container id="recentCallsViewId">
+			<table md-table>
+				<thead md-head class="tableHeaderBg"
+					md-order="datatableObj.sortField" md-on-reorder="updateSorting">
+					<tr md-row>
+						<th md-column md-order-by="id" align="center" rowspan="2">ID</th>
+						<th md-column md-order-by="dateTimeStr" align="center" rowspan="2">Date/Time</th>
+						<th md-column align="center" colspan="4" style="text-align: center;" class="applyBorderColor">Sender</th>
+						<th md-column align="center" colspan="4" style="text-align: center;" class="applyBorderColor">Recipient</th>
+						<th md-column md-order-by="messageLength" align="center" rowspan="2" style="text-align: center;">Message Length (Character)</th>
+						<th md-column md-order-by="deliveryStatus" align="center" rowspan="2">Delivery Status</th>
+					</tr>
+					<tr md-row>
+						<th md-column md-order-by="senderNumber" align="center" style="text-align: center;">Number</th>
+						<th md-column md-order-by="senderBeamId" align="center" style="text-align: center;">Beam</th>
+						<th md-column md-order-by="senderGSMTermination" align="center" style="text-align: center;">GSM Termination Used</th>
+						<th md-column md-order-by="senderServerIP" align="center" style="text-align: center;">Server IP Address</th>
+						<th md-column md-order-by="receiverNumber" align="center"  style="text-align: center;">Number</th>
+						<th md-column md-order-by="receiverBeamId" align="center" style="text-align: center;">Beam</th>
+						<th md-column md-order-by="receiverGSMTermination" align="center" style="text-align: center;">GSM Termination Used</th>
+						<th md-column md-order-by="receiverServerIP" align="center" style="text-align: center;">Server IP Address</th>
+						</tr>
+				</thead>
+				<tbody md-body>
+					<tr md-row
+						ng-repeat="component in smsData | orderBy:datatableObj.sortField | filter: datatableObj.searchText | limitTo : datatableObj.limit : (datatableObj.defaultPage-1)*datatableObj.limit"
+						ng-class-odd="'odd'" ng-class-even="'even'">
+						<td md-cell align="center">{{component.id}}</td>
+						<td md-cell align="center">{{component.dateTimeStr}}</td>
+						<td md-cell align="center" style="text-align: center;"><img ng-src="{{component.senderNumberType==='S'?'images/satellite.png':'images/pstn.png'}}" style="height: 50%;">{{component.senderNumber}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.senderBeamName || ''}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.senderGSMTermination}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.senderServerIP}}</td>
+						<td md-cell align="center" style="text-align: center;"><img ng-src="{{component.receiverNumberType==='S'?'images/satellite.png':'images/pstn.png'}}" style="height: 50%;">{{component.receiverNumber}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.receiverBeamName || ''}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.receiverGSMTermination}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.receiverServerIP}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.messageLength}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.deliveryStatus || ''}}</td>
+					</tr>
+					<tr md-row ng-show="smsData.length==0">
+						<td colspan="12" align="center" class="noDataText">No data available</td>
+					</tr>
+				</tbody>
+			</table>
+			</md-table-container>
+			<md-table-pagination md-limit="datatableObj.limit"
+				md-limit-options="datatableObj.records"
+				md-page="datatableObj.defaultPage"
+				md-total="{{smsData?(smsData|filter:datatableObj.searchText).length:0}}"
+				md-page-select></md-table-pagination>
+			<br>
+		</div>
+	</div>
+	
+</div>
+

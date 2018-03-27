@@ -1,0 +1,109 @@
+<!-- 
+ ***************************************************************************************************
+ -- FILENAME      : sigConfig.html
+ --	DESCRIPTION   : file to update the configuration of SIG Modem(s)
+ --
+ --  Copyright	  : Copyright  (c) 2017.
+ --  Company      : ISRO.
+ --
+ --  Revision History
+ -- ------------------------------------------------------------------------------------------------
+ -- |VERSION|	Date				|	Author    					|	Reason for Changes				|
+ -- ------------------------------------------------------------------------------------------------
+ -- |	0.1 | 28th November, 2017 	|	Suresh Ungarala 			|	initial draft  					|
+ --	------------------------------------------------------------------------------------------------
+ --
+ ****************************************************************************************************
+-->
+
+
+<div layout="column" flex align="center" style="font-size:13px">
+	<page-header header="Signal Modem" success="successMessage"
+		error="errorMessage"></page-header>
+
+	<div class="singleLineSpace"></div>
+	
+	<div class="singleLineSpace"></div>
+	<div>
+		<div flex ng-controller="paginationCtrl" style="width: 100%;">
+			<datatable-header title=""
+				search="datatableObj.searchText"></datatable-header>
+
+			<md-table-container>
+			<table md-table md-row-select multiple ng-model="selected">
+				<thead md-head class="tableHeaderBg"
+					md-order="datatableObj.sortField" md-on-reorder="updateSorting">
+					<tr md-row>
+						<th md-column md-order-by="id" align="center" rowspan="2">ID</th>
+						<th md-column md-order-by="model" align="center" rowspan="2">Model</th>
+						<th md-column md-order-by="componentType" align="center" rowspan="2">Component Type</th>
+						<th md-column align="center" colspan="2" style="text-align: center;" class="applyBorderColor">SDS ID/Port *</th>
+						<th md-column md-order-by="sdsIFIp" align="center" rowspan="2" style="text-align: center;">Data I/F (SDS) IP Address</th>
+						<th md-column md-order-by="mncIp" align="center" rowspan="2">M&C I/F IP Address</th>
+						<th md-column md-order-by="statusSelected" align="center" rowspan="2">Status *</th>
+						<th md-column colspan="4" align="center" style="text-align: center;" class="applyBorderColor">Allocation Details (If Allocated)</th>
+						<th md-column md-order-by="lastUpdateTimeStr" align="center" rowspan="2" style="text-align: center;">Time Of Last Status Change</th>
+						<th md-column align="center" rowspan="2">Locate</th>
+					</tr>
+					<tr md-row>
+						<th md-column md-order-by="sdsId" align="center" >SDS ID</th>
+						<th md-column md-order-by="sdsPort" align="center" style="text-align: center;">Port</th>
+						<th md-column md-order-by="serverIp" align="center" style="text-align: center;">Server IP Address</th>
+						<th md-column md-order-by="beamId" align="center">Beam</th>
+						<th md-column md-order-by="txFreq" align="center">Tx Freq (GHz)</th>
+						<th md-column md-order-by="rxFreq" align="center">RX Freq (GHz)</th>
+						</tr>
+				</thead>
+				<tbody md-body>
+					<tr md-row
+						ng-repeat="component in sigModems | orderBy:datatableObj.sortField | filter: datatableObj.searchText | limitTo : datatableObj.limit : (datatableObj.defaultPage-1)*datatableObj.limit"
+						ng-class-odd="'odd'" ng-class-even="'even'" md-select="component" ng-disabled="disableUnAuthEditGlobal" md-on-select="selectRow" md-on-deselect="deselectRow">
+						<td md-cell align="center" style="text-align: center;">{{component.id}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.model || ''}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.componentType}}</td>
+						<td md-cell align="center" style="text-align: center;"><md-input-container>
+							<md-select aria-label="sdsId" ng-model="component.sdsId" ng-init="component.sdsIFIp=getDataIfIp(component.sdsId)" ng-change="component.sdsIFIp=getDataIfIp(component.sdsId)" ng-disabled="!component.rowSelected">
+							<md-option ng-value="idIpPair.value" ng-repeat="idIpPair in sdsIdIpPairArr">{{idIpPair.value}}</md-option>
+							</md-select> </md-input-container></td>
+						<td md-cell align="center" style="text-align: center; width: 40px;"><md-input-container style="height: 30px;"> <input name="sdsPort" ng-disabled="!component.rowSelected"
+													ng-model="component.sdsPort" aria-label="sdsPort"> </md-input-container></td>
+						<td md-cell align="center" style="text-align: center;">{{component.sdsIFIp}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.mncIp}}</td>
+						<td md-cell align="center"><md-input-container>
+							<md-select aria-label="statusSelected" placeholder={{component.status}}  ng-init="component.statusSelected=component.status" ng-model="component.statusSelected" ng-disabled="!component.rowSelected">
+								<md-option ng-value="status.name" ng-repeat="status in statusMap">{{status.name}}</md-option>
+							</md-select> </md-input-container></td>
+						<td md-cell align="center" style="text-align: center;">{{component.serverIp}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.beamName || ''}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.txFreq || ''}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.rxFreq || ''}}</td>
+						<td md-cell align="center" style="text-align: center;">{{component.lastUpdateTimeStr}}</td>
+						<td md-cell align="center" >
+						<md-button ng-click="locateSigModem(component.id)" class="md-raised md-primary buttnCls">
+						<i class="material-icons" style="vertical-align: text-bottom;">{{component.locateStatus=='LOCATE'?'location_disabled':'location_on'}}</i>{{component.locateStatus=='LOCATE'?'Unlocate':'Locate'}}</md-button>
+						</td>
+					</tr>
+					<tr md-row ng-show="sigModems.length==0">
+						<td colspan="14" align="center" class="noDataText">No data available</td>
+					</tr>
+				</tbody>
+			</table>
+			</md-table-container>
+			<md-table-pagination md-limit="datatableObj.limit"
+				md-limit-options="datatableObj.records"
+				md-page="datatableObj.defaultPage"
+				md-on-paginate="onPaginate"
+				md-total="{{sigModems?(sigModems|filter:datatableObj.searchText).length:0}}"
+				md-page-select></md-table-pagination>
+			<br>
+		</div>
+	</div>
+	<form name="sigModemConfigForm">
+		<div>
+			<md-button
+				ng-disabled="disableUnAuthEditGlobal || (selected.length==0 && !sigModemConfigForm.$dirty)"
+				ng-click="showConfirm()" class="md-raised md-primary">Update</md-button>
+		</div>
+	</form>
+</div>
+

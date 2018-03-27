@@ -1,0 +1,75 @@
+<!-- 
+ ***************************************************************************************************
+ -- FILENAME      : currentAlarm.html
+ --	DESCRIPTION   : file to generate layout of current alarm page
+ --
+ --  Copyright	  : Copyright  (c) 2017.
+ --  Company      : ISRO.
+ --
+ --  Revision History
+ -- ------------------------------------------------------------------------------------------------
+ -- |VERSION|	Date				|	Author    				|	Reason for Changes				|
+ -- ------------------------------------------------------------------------------------------------
+ -- |	0.1 | 30th November, 2017 	|	Suresh Unagarala		|	initial draft  					|
+ --	------------------------------------------------------------------------------------------------
+ --
+ ****************************************************************************************************
+-->
+
+<div flex align="center" style="font-size:13px">
+<page-header header="Archived Alarms" success="successMessage" error="errorMessage"></page-header>
+
+<div>
+		<div flex ng-controller="paginationCtrl" style="width: 100%;">
+			<datatable-header title=""
+				search="datatableObj.searchText"></datatable-header>
+
+			<md-table-container>
+			<table md-table>
+				<thead md-head class="tableHeaderBg"
+					md-order="datatableObj.sortField" md-on-reorder="updateSorting">
+					<tr md-row>
+						<th md-column align="center" >ID</th>
+						<th md-column align="center" >Time Reported</th>
+						<th md-column align="center" >Alarm Type</th>
+						<th md-column align="center" >Alarm Description</th>
+						<th md-column align="center" >Component</th>
+						<th md-column align="center" >Component Instance</th>
+						<th md-column align="center" >Component IP Address/Port</th>
+						<th md-column align="center" >Alarm Severity</th>
+						<th md-column align="center" >Time Cleared</th>
+						<th md-column align="center" >Clearing Reason</th>
+					</tr>
+				</thead>
+				<tbody md-body>
+					<tr md-row
+						ng-repeat="component in ArchivedAlarms | filter: datatableObj.searchText"
+						 ng-class-odd="'odd'" ng-class-even="'even'">
+						<td md-cell align="center">{{component.alarmId}}</td>
+						<td md-cell align="center">{{component.raiseTimeStr}}</td>
+						<td md-cell align="center">{{component.alarmType}}</td>
+						<td md-cell align="center">{{component.description}}</td>
+						<td md-cell align="center">{{component.component}}</td>
+						<td md-cell align="center">{{component.componentInstance}}</td>
+						<td md-cell align="center">{{component.componentIp}}</td>
+						<td md-cell align="center" ng-class="{redcolor:component.severity==='Critical',orangecolor:(component.severity==='Major' || component.severity==='Minor'),greencolor:component.severity==='Informational'}">{{component.severity}}</td>
+						<td md-cell align="center">{{component.clearTimeStr}}</td>
+						<td md-cell align="center">{{component.clearingReason}}</td>
+					</tr>
+					<tr md-row ng-show="ArchivedAlarms.length==0">
+						<td colspan="10" align="center" class="noDataText">No data available</td>
+					</tr>
+				</tbody>
+			</table>
+			</md-table-container>
+			<md-table-pagination md-limit="datatableObj.limit"
+				md-limit-options="datatableObj.records"
+				md-page="datatableObj.defaultPage"
+				md-on-paginate="getArchivedAlarmsData"
+				md-total="{{totalRecords}}"
+				md-page-select></md-table-pagination>
+			<br>
+		</div>
+	</div>
+		<!-- <div layout="row" style="font-size:12px"><i><b>Note</b>: Informational and Warning alarms can't be Acknowledged / UnAcknowledged / Force Cleared</i></div> -->
+</div>

@@ -1,0 +1,157 @@
+<div flex layout="column" style="padding: 0 1% 1% 1%;">
+<page-header header="Service Status" success="successMessage" error="errorMessage"></page-header>
+	<div class="singleLineSpace"></div>
+	<div class="singleLineSpace"></div>
+	
+	<div flex layout="row" layout-align="space-between start" style="min-height: 240px; position: relative;">
+		<div class="service-box" style="width:12%; margin-right: 1%;">
+            <div>
+	            <div>
+	            	<h4 style="text-align: center;">Registration</h4>
+	            </div>
+	            <div class="box-content" style="width: 100%;">
+		            <div class="font-15" style="height: 40px;">Terminals</div>
+		            <div class="counter">{{serviceCountData.registeredTerminalCount == -1 ? '' : serviceCountData.registeredTerminalCount}}</div>
+	            </div>
+            </div>
+       </div>
+       
+       <div class="service-box" style="width:52%; margin-right: 1%;"> 
+            <div>
+            	<div>
+	            	<h4 style="text-align: center;">Call Service</h4>
+	            </div>
+	            <div class="box-content" style="width: 20%;">
+		            <div class="font-15" style="height: 40px;">Active Calls</div>
+		            <div class="counter">{{serviceCountData.activeCallCount == -1 ? '' : serviceCountData.activeCallCount}}</div>
+	            </div>
+	            <div class="box-content" style="width: 20%;">
+		            <div class="font-15" style="height: 40px;">Call Attempts</div>
+		            <div class="counter">{{serviceCountData.callAttemptCount == -1 ? '' : serviceCountData.callAttemptCount}}</div>
+	            </div>
+	            <div class="box-content" style="width: 20%;">
+		            <div class="font-15" style="height: 40px;">Failed Attempts</div>
+		            <div class="counter">{{serviceCountData.failedAttemptCallCount == -1 ? '' : serviceCountData.failedAttemptCallCount}}</div>
+	            </div>
+	            <div class="box-content" style="width: 20%;">
+		            <div class="font-15" style="height: 40px;">Avg Repeat Count</div>
+		            <div class="counter">{{serviceCountData.avgRepeatCount == -1 ? '' : serviceCountData.avgRepeatCount}}</div>
+	            </div>
+	            <div class="box-content" style="width: 20%;">
+		            <div class="font-15" style="height: 40px;">Lost Media Packets</div>
+		            <div class="counter">{{serviceCountData.lostMedicPktCount == -1 ? '' : serviceCountData.lostMedicPktCount}}</div>
+	            </div>
+            </div>
+       </div>
+       
+       <div class="service-box" style="width:32%; margin-right: 1%;">
+            <div>
+	            <div>
+	            	<h4 style="text-align: center;">SMS Service</h4>
+	            </div>
+	            <div class="box-content" style="width: 25%;;">
+		            <div class="font-15" style="height: 40px;">SMR-PSTN</div>
+		            <div class="counter">{{serviceCountData.smrGSMSMSCount == -1 ? '' : serviceCountData.smrGSMSMSCount}}</div>
+	            </div>
+	            <div class="box-content" style="width: 25%;">
+		            <div class="font-15" style="height: 40px;">PSTN-SMR</div>
+		            <div class="counter">{{serviceCountData.gsmSMRSMSCount == -1 ? '' : serviceCountData.gsmSMRSMSCount}}</div>
+	            </div>
+	            <div class="box-content" style="width: 25%;">
+		            <div class="font-15" style="height: 40px;">SMR-SMR</div>
+		            <div class="counter">{{serviceCountData.smrSMRSMSCount == -1 ? '' : serviceCountData.smrSMRSMSCount}}</div>
+	            </div>
+	            <div class="box-content" style="width: 25%;">
+		            <div class="font-15" style="height: 40px;">Failed</div>
+		            <div class="counter">{{serviceCountData.failedDeliverySMSCount == -1 ? '' : serviceCountData.failedDeliverySMSCount}}</div>
+	            </div>
+            </div>
+       </div>
+       
+       <div style="position: absolute; right: -108px; top: 32px;">
+       		<!-- <md-button id="rotate" ng-click="toggleRight()" ng-hide="isOpenRight()" class="md-raised md-warn"> LOCATE US </md-button> -->
+       		<input type="button" id="rotate" ng-click="openMap()" ng-hide="isOpenRight()" value="BEAM & USER TERMINAL">
+       	</div>
+       
+	</div>
+	
+	<div flex layout="row" layout-align="space-between start" style="min-height: 280px;">
+		<div class="service-box" style="width:33%;"> 
+            <div class="sevice-inr">
+            	<h4><center>Terminal Distribution</center></h4>
+            	<div id="terminal_distribution" style="width: 100%; height:200px;"></div>
+            </div>
+        </div>
+        
+        <div class="service-box" style="width:32%;"> 
+            <div class="sevice-inr">
+            	<h4><center>Call Mix</center></h4>
+            	<div id="call_mix" style="width: 100%; height:200px;"></div>
+            </div>
+        </div>
+        
+        <div class="service-box" style="width:32%;"> 
+            <div class="sevice-inr">
+            	<h4><center>Call Distribution</center></h4>
+            	<div id="call_distribution" style="width: 100%; height:200px;"></div>
+            </div>
+        </div>
+	</div>
+	
+	<h3 style="color: #005dac;">Resource Utilization Status (last 1 min)</h3>
+	
+	<div flex layout="row" layout-align="space-between start" style="min-height: 300px;">
+		<div class="service-box" style="width:33%;"> 
+            <div class="sevice-inr">
+            	<h4><center>Communication Modem</center></h4>
+            	<div id="communication_modem" style="width: 100%; height:200px;"></div>
+            </div>
+        </div>
+        
+        <div class="service-box" style="width:32%;"> 
+            <div class="sevice-inr">
+            	<h4><center>PSTN Terminations (Incoming)</center></h4>
+            	<div id="pstnTermination_in" style="width: 100%; height:200px;"></div>
+            </div>
+        </div>
+        
+        <div class="service-box" style="width:32%;"> 
+            <div class="sevice-inr">
+            	<h4><center>PSTN Terminations (Outgoing)</center></h4>
+            	<div id="pstnTermination_out" style="width: 100%; height:200px;"></div>
+            </div>
+        </div>
+	</div>
+	
+	<div flex layout="row" layout-align="space-between start" style="min-height: 400px;">
+		<div class="service-box" style="width:49%;"> 
+            <div class="sevice-inr">
+            	<h4><center>Communication Channel</center></h4>
+            	<div id="comm_channel" style="width: 100%; height:300px;"></div>
+            </div>
+        </div>
+        
+        <div class="service-box" style="width:49%;"> 
+            <div class="sevice-inr">
+            	<h4><center>Signalling Channel Loading</center></h4>
+            	<div id="signal_channel_loading" style="width: 100%; height:300px;"></div>
+            </div>
+        </div>
+	</div>
+	
+	<md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-component-id="mapContainer">
+
+	   <md-content style="overflow-x: hidden;">
+	   		<div class="map-container">
+	     		<div id="map_div" style="width: 100%; height: 100vh;"></div>
+     		</div>
+	     <!-- <md-button ng-click="close()" class="md-primary" style="margin-left: 45%;"> Close </md-button> -->
+	   </md-content>
+	   
+	   <div style="position: absolute; left: -13px; top: 50%;">
+	     <input type="button" class="map-close-btn" ng-click="close()" value="CLOSE">
+	   </div>
+
+ 	</md-sidenav>
+	
+</div>
